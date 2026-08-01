@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import json
 import os
-from dataclasses import dataclass, field
+from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any, Dict, Optional
 
@@ -66,7 +66,7 @@ class ConfigManager:
             except json.JSONDecodeError:
                 loaded_settings = {}
 
-        merged = {**defaults.__dict__, **loaded_settings}
+        merged = {**asdict(defaults), **loaded_settings}
         merged["settings"] = {**defaults.settings, **loaded_settings.get("settings", {})}
 
         return AppConfig(**merged)
